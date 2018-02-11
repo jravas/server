@@ -1,5 +1,3 @@
-import { connect } from 'net';
-
 const   WebSocket = require('ws');
         wss = new WebSocket.Server({ port: 8080 });
 // lsit of users that are connected to the server
