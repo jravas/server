@@ -30,6 +30,42 @@ wss.on('connection', function connection(connection) {
                 });
             }
             break;
+        // Initiating a call
+        case 'offer':
+            console.log('Sending offer to ', data.name);
+            var conn = users[data.name];
+            if (conn != null) {
+                connection.otherName = data.name;
+                sendTo(conn, {
+                    type: 'offer',
+                    offer: data.offer,
+                    name: connection.name
+                });
+            }
+            break;
+        // Answering a call
+        case 'answer':
+            console.log('Sending answer to ', data.name);
+            var conn = users[data.name];
+            if (conn != null) {
+                connection.otherName = data.name;
+                sendTo(conn, {
+                    type: 'answer',
+                    answer: data.answer
+                });
+            }
+            break;
+        // Handling ICE candidates
+        case 'candidate':
+            console.log('Sending candidate to ', data.name);
+            var conn = users[data.name];
+            if (conn !=null) {
+                sendTo(conn, {
+                    type: 'candidate',
+                    candidate: data.candidate
+                });
+            }
+            break;
         default:
         sendTo(connection, {
             type: 'error',
