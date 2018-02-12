@@ -12,7 +12,7 @@ wss.on('connection', function connection(connection) {
         console.log('Error parsing JSON');
         data = {};
     }
-    // check if user is logged with taht id
+    // check if user is logged with that id
     switch (data.type) {
         case 'login':
             console.log('User logged in as ', data.name);
