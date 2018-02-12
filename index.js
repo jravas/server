@@ -101,7 +101,7 @@ wss.on('connection', function connection(connection) {
               }
           }
       }
-  })
+  });
 });
 // handles sending a message to connection
 function sendTo(conn, message) {
