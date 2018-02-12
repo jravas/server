@@ -66,6 +66,17 @@ wss.on('connection', function connection(connection) {
                 });
             }
             break;
+        // Hanging up a call
+        case 'leave':
+            console.log('Disconnecting user from ', data.name);
+            var conn = users[data.name];
+            conn.otherName = null;
+            if (conn != null) {
+                sendTo(conn, {
+                    type: 'leave'
+                });
+            }
+            break;
         default:
         sendTo(connection, {
             type: 'error',
@@ -79,6 +90,16 @@ wss.on('connection', function connection(connection) {
   connection.on('close', function () {
       if (connection.name) {
           delete users[connection.name];
+          if (connection.otherName) {
+              console.log('Disconnecting user from ', connection.otherName);
+              var conn = users[connection.otherName];
+              conn.otherName = null;
+              if (conn != null) {
+                  sendTo(conn, {
+                      type: 'leave'
+                  });
+              }
+          }
       }
   })
 });
@@ -86,3 +107,7 @@ wss.on('connection', function connection(connection) {
 function sendTo(conn, message) {
     conn.send(JSON.stringify(message));
 }
+// listening handler for notifing when the server is ready to accept WebSocket connections
+wss.on('listening', function () {
+    console.log('Server started ...');
+});
