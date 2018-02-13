@@ -85,7 +85,6 @@ wss.on('connection', function connection(connection) {
         break;
     }
   });
-  connection.send('something');
   // clean up clients connections when they disconenct
   connection.on('close', function () {
       if (connection.name) {
